@@ -4,7 +4,7 @@ import upload from '../middleware/multer.js';
 
 const flowerRouter = express.Router()
 
-flowerRouter.post('/add', upload.fields([{ name: 'image', maxCount: 1 }]), addFlower);
+flowerRouter.post('/add', upload.single([{ name: 'image', maxCount: 1 }]), addFlower);
 flowerRouter.get('/list', listFlower)
 flowerRouter.post('/remove', removeFlower)
 

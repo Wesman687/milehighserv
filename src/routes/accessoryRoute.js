@@ -4,7 +4,7 @@ import upload from '../middleware/multer.js'
 
 const AccessoryRouter = express.Router()
 
-AccessoryRouter.post('/add', upload.single([{ name: 'image', maxCount: 1 }]), addAccessory)
+AccessoryRouter.post('/add', upload.fields([{ name: 'image', maxCount: 1 }]), addAccessory)
 AccessoryRouter.get('/list', listAccessory)
 AccessoryRouter.post('/remove', removeAccessory)
 

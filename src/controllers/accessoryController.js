@@ -10,8 +10,12 @@ const addAccessory = async(req, res) => {
         const tag = req.body.tag
         const price = req.body.price;
         const sizes = req.body.sizes
-        const imageFile = req.files.image[0];
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+        const thumbUpload = await req.files.map(file => {
+            const images = newImage(file.buffer)
+            const imagesUpload =  cloudinary.uploader.upload(images.path, { resource_type: "image"})
+            return images.save
+        })
+        const thumb = await Promise.all
 
         const accessoryData = {
             name,
@@ -21,6 +25,7 @@ const addAccessory = async(req, res) => {
             price,
             sizes,
             image: imageUpload.secure_url,
+            thumb: thumbUpload.secure_url
         };
 
         const accessory = accessoryModel(accessoryData);

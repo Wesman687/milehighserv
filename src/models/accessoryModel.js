@@ -6,7 +6,8 @@ const accessorySchema = new mongoose.Schema({
     tag: { type: String, required: true },
     price: { type: String, required: true },
     sizes: { type: String, required: false},
-    image: { type: String, required: true },
+    image: { type: String, required: false },
+  
 })
 
 

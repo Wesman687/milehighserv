@@ -57,7 +57,7 @@ app.post('/create-checkout-session', async (req, res) => {
       ui_mode: 'embedded',
       line_items: arrangedData,
       mode: 'payment',
-    return_url: `https://mile-high.vercel.app//return?session_id={CHECKOUT_SESSION_ID}`,
+    return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`,
   });
   const totalQuantity = () => {  
     let counter = 0

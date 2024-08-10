@@ -10,7 +10,7 @@ import accessoryRouter from "./src/routes/accessoryRoute.js";
 import Stripe from "stripe";
 import orderModel from "./src/models/orderModel.js";
 
-const stripe = Stripe('sk_test_51PfkMSKGivAzlyzB0Azl2aZTNCVmj5fWIHYrCBuDktFC7gGOVY2w2bwPlAfhqr9zLr1Ni2lrgT36sLpjLGdi4OxL00RKrUotq9')
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
 
 // app config
@@ -57,7 +57,7 @@ app.post('/create-checkout-session', async (req, res) => {
       ui_mode: 'embedded',
       line_items: arrangedData,
       mode: 'payment',
-    return_url: `http://mile-high-105b9c9c6bca.herokuapp.com/return?session_id={CHECKOUT_SESSION_ID}`,
+    return_url: `https://mile-high.vercel.app/return?session_id={CHECKOUT_SESSION_ID}`,
   });
   const totalQuantity = () => {  
     let counter = 0

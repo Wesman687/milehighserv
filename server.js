@@ -9,6 +9,7 @@ import flowerRouter from "./src/routes/flowerRoute.js";
 import accessoryRouter from "./src/routes/accessoryRoute.js";
 import Stripe from "stripe";
 import orderModel from "./src/models/orderModel.js";
+import orderRouter from "./src/routes/orderRoute.js";
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -31,6 +32,7 @@ app.use("/api/song", songRouter )
 app.use('/api/album', albumRouter)
 app.use('/api/flower', flowerRouter)
 app.use('/api/accessory', accessoryRouter)
+app.use('/api/orders', orderRouter)
 
 
 app.get("/", (req, res) => res.send("API Working"))
@@ -66,9 +68,17 @@ app.post('/create-checkout-session', async (req, res) => {
     })
     return counter
   }
+  const totalPrice = () => {
+    let counter = 0
+    productArr.forEach(item =>{
+      counter += item.quantity * item.basePrice
+    })
+    return counter
+  }
   const newOrder = {    
     products: req.body.cart,
-    total: totalQuantity(),
+    totalQuantity: totalQuantity(),
+    totalPrice: totalPrice(),
     transactionId: session.id,
     uid: req.body.cart[0].uid
   }

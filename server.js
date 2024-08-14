@@ -77,7 +77,6 @@ app.post('/create-checkout-session', async (req, res) => {
   }
   const newOrder = {    
     products: req.body.cart,
-    totalQuantity: totalQuantity(),
     totalPrice: totalPrice(),
     firstName: req.body.user.firstName,
     lastName: req.body.user.lastName,
@@ -96,7 +95,7 @@ app.post('/create-checkout-session', async (req, res) => {
   res.send({clientSecret: session.client_secret});
 });
 
-  app.get('/session-status', async (req, res) => {
+app.get('/session-status', async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
     await orderModel.findOneAndUpdate({transactionId:req.query.session_id}, {paymentStatus:session.status})
     res.send({

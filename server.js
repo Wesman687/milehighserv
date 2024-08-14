@@ -79,6 +79,14 @@ app.post('/create-checkout-session', async (req, res) => {
     products: req.body.cart,
     totalQuantity: totalQuantity(),
     totalPrice: totalPrice(),
+    firstName: req.body.user.firstName,
+    lastName: req.body.user.lastName,
+    email: req.body.user.email,
+    address: req.body.user.address,
+    city: req.body.user.city,
+    state: req.body.user.state,
+    stateid: req.body.user.stateid,
+    phone: req.body.user.phone,
     transactionId: session.id,
     uid: req.body.cart[0].uid
   }

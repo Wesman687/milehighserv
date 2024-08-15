@@ -12,7 +12,7 @@ const orderSchema = new mongoose.Schema({
     stateid: {type: String, required: true},
     phone: {type: String, required: true},
     transactionId:{type:String, required:true},
-    shippingState:{type: String, default: null},
+    shippingState:{type: String, default: "Not Shipped"},
     orderId: {type: String, required: false},
     orderNumber:{type: String, required:false},
     zip:{type: String, required:true},

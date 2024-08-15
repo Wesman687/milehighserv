@@ -87,6 +87,7 @@ app.post('/create-checkout-session', async (req, res) => {
     stateid: req.body.user.stateid,
     phone: req.body.user.phone,
     transactionId: session.id,
+    zip: req.body.user.zip,
     uid: req.body.cart[0].uid
   }
   
@@ -104,3 +105,19 @@ app.get('/session-status', async (req, res) => {
     });
   });
   
+  app.post('/webhook/shipstation', (req, res) => {
+    const event = req.body;
+  
+    // Log the event for debugging
+    console.log('Received webhook event:', event);
+  
+    // Handle the event (e.g., send a notification, update a database, etc.)
+    if (event && event.resource_type === 'SHIP_NOTIFY') {
+      const shipment = event.resource;
+      console.log('Shipment status updated:', shipment);
+      // Add your custom logic here (e.g., send an email or SMS notification)
+    }
+  
+    // Respond to ShipStation
+    res.status(200).send('Webhook received');
+  });

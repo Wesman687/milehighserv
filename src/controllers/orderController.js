@@ -16,9 +16,11 @@ const updateOrderId = async (req, res) => {
     try {
       const orderId = req.body.orderId;
       const orderNumber = req.body.orderNumber
+      const shippingState = 'Shipping'
       const payload = {
         orderId,
-        orderNumber
+        orderNumber,
+        shippingState
       }      
       await orderModel.findByIdAndUpdate(req.body.id, payload);
   
@@ -30,19 +32,18 @@ const updateOrderId = async (req, res) => {
   const updateNumber = async (req, res) => {
     let number
     try {
-        number = await numberModel.find('66bd67c2778d2b57dec72c8b');
-        await orderModel.findByIdAndUpdate(req.body.id, {shippingState: Shipping})
+        number = await numberModel.find();
         res.json({ success: true, orderNumber: number });
       } catch (error) {
         res.json({ success: false });
       }
-    const orderNumber = number.orderNumber + 1
-    const id = number.id
+    const orderNumber = number[0].orderNumber + 1
+    const id = req.body
     const payload = {
         orderNumber: orderNumber
     }
+    await numberModel.findByIdAndUpdate('66bd67c2778d2b57dec72c8b', payload)
 
-    await numberModel.findByIdAndUpdate(id, payload)
   }
 
   const getNumber = async (req, res) => {

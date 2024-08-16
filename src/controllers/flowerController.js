@@ -52,6 +52,7 @@ const removeFlower = async (req, res) => {
 };
 const updateFlower = async (req, res) => {
     console.log(req.body)
+  try {
     const name = req.body.name;
     const desc = req.body.desc;
     const title = req.body.title;
@@ -83,10 +84,12 @@ const updateFlower = async (req, res) => {
         image,
       };
     }
-    console.log(flowerData)
     await flowerModel.findByIdAndUpdate(req.body.id, flowerData);
 
     res.json({ success: true, message: "Flower Updated" });
+  } catch (error) {
+    res.json({ success: false });
+  }
 };
 
 export { addFlower, listFlower, removeFlower, updateFlower };

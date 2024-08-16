@@ -60,7 +60,7 @@ const updateFlower = async (req, res) => {
     const category = req.body.category;
     
     let flowerData;
-    if (req.body.newImage === true) {
+    if (req.body.newImage === 'true') {
       const imageFile = req.files.image[0];
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
         resource_type: "image",

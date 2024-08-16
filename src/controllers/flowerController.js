@@ -51,20 +51,19 @@ const removeFlower = async (req, res) => {
   }
 };
 const updateFlower = async (req, res) => {
-    
-  try {
+    console.log(req.body)
     const name = req.body.name;
     const desc = req.body.desc;
     const title = req.body.title;
     const prices = req.body.prices;
     const category = req.body.category;
-    const imageFile = req.files.image[0];
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-      resource_type: "image",
-    });
-    console.log(req.body)
+    
     let flowerData;
-    if (req.body.newImage) {
+    if (req.body.newImage === true) {
+      const imageFile = req.files.image[0];
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
       flowerData = {
         name,
         desc,
@@ -84,12 +83,10 @@ const updateFlower = async (req, res) => {
         image,
       };
     }
+    console.log(flowerData)
     await flowerModel.findByIdAndUpdate(req.body.id, flowerData);
 
     res.json({ success: true, message: "Flower Updated" });
-  } catch (error) {
-    res.json({ success: false });
-  }
 };
 
 export { addFlower, listFlower, removeFlower, updateFlower };

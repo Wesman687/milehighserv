@@ -54,4 +54,13 @@ const updateOrderId = async (req, res) => {
         res.json({ success: false });
     }
   }
-export { listOrders, updateOrderId, updateNumber, getNumber}
+  const removeOrder = async (req, res) => {
+    console.log("removed", req.body.id)
+    try {
+      await orderModel.findByIdAndDelete(req.body.id);
+      res.json({ success: true, message: "Order Removed" });
+    } catch (error) {
+      res.json({ success: false });
+    }
+  };
+export { listOrders, updateOrderId, updateNumber, getNumber, removeOrder}

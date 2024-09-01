@@ -4,9 +4,14 @@ const flowerSchema = new mongoose.Schema({
 
     name: { type: String, required: true },
     desc: { type: String, required: true },
-    title: { type: String, required: true },
+    title: { type: String, required: false },
     prices: { type: Array, required: true},
-    image: { type: String, required: true },
+    price: {type: String, required: false},
+    image: { type: String, required: false },
+    images: [{
+        link: String,
+        public_id: String,
+    }],
     category: { type: String, required: true}
 })
 

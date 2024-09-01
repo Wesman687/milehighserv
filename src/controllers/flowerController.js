@@ -2,25 +2,19 @@ import { v2 as cloudinary } from "cloudinary";
 import flowerModel from "../models/flowerModel.js";
 
 const addFlower = async (req, res) => {
+  console.log(req.body)
   try {
     const name = req.body.name;
     const desc = req.body.desc;
-    const title = req.body.title;
-    const price = req.body.price;
-    const imageFile = req.files.image[0];
+    const images= req.body.images
     const prices = req.body.prices;
     const category = req.body.category;
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-      resource_type: "image",
-    });
     const flowerData = {
       name,
       desc,
-      title,
       category,
       prices,
-      price,
-      image: imageUpload.secure_url,
+      images
     };
 
     const flower = flowerModel(flowerData);
@@ -55,35 +49,17 @@ const updateFlower = async (req, res) => {
   try {
     const name = req.body.name;
     const desc = req.body.desc;
-    const title = req.body.title;
     const prices = req.body.prices;
     const category = req.body.category;
+    const images= req.body.images
     
-    let flowerData;
-    if (req.body.newImage === 'true') {
-      const imageFile = req.files.image[0];
-      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-        resource_type: "image",
-      });
-      flowerData = {
+    let flowerData = {
         name,
         desc,
-        title,
         category,
         prices,
-        image: imageUpload.secure_url,
-      };
-    } else {        
-    const image = req.body.image;
-      flowerData = {
-        name,
-        desc,
-        title,
-        category,
-        prices,
-        image,
-      };
-    }
+        images
+      };    
     await flowerModel.findByIdAndUpdate(req.body.id, flowerData);
 
     res.json({ success: true, message: "Flower Updated" });

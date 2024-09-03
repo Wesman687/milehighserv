@@ -41,8 +41,9 @@ app.listen(port, () => console.log(`Server started on ${port}`))
 
 
 app.post('/create-checkout-session', async (req, res) => {
-  
-    let productArr = req.body.cart
+    try {
+      let productArr = req.body.cart
+      console.log("Creating Checkout Session", productArr)
     let arrangedData = productArr.map(product => ({
         price_data: {
           currency: 'usd',
@@ -61,13 +62,6 @@ app.post('/create-checkout-session', async (req, res) => {
       mode: 'payment',
     return_url: `https://mile-high.vercel.app/return?session_id={CHECKOUT_SESSION_ID}`,
   });
-  const totalQuantity = () => {  
-    let counter = 0
-    productArr.forEach(item => {
-      counter += item.quantity
-    })
-    return counter
-  }
   const totalPrice = () => {
     let counter = 0
     productArr.forEach(item =>{
@@ -94,15 +88,24 @@ app.post('/create-checkout-session', async (req, res) => {
   const order = orderModel(newOrder);
   await order.save();
   res.send({clientSecret: session.client_secret});
+    } catch (error) {
+      console.log(error)
+      res.send(error)
+    }
 });
 
 app.get('/session-status', async (req, res) => {
-    const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+    try {
+      console.log("Checking session status on", req.query.session_id)
+      const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
     await orderModel.findOneAndUpdate({transactionId:req.query.session_id}, {paymentStatus:session.status})
     res.send({
       status: session.status,
       customer_email: session.customer_details.email
     });
+    } catch (error) {
+      console.log(error)
+    }
   });
   
   app.post('/webhook/shipstation', (req, res) => {

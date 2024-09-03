@@ -88,6 +88,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const order = orderModel(newOrder);
   await order.save();
   res.send({clientSecret: session.client_secret});
+  
     } catch (error) {
       console.log(error)
       res.send(error)
@@ -99,6 +100,7 @@ app.get('/session-status', async (req, res) => {
       console.log("Checking session status on", req.query.session_id)
       const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
     await orderModel.findOneAndUpdate({transactionId:req.query.session_id}, {paymentStatus:session.status})
+    console.log("Status", session.status)
     res.send({
       status: session.status,
       customer_email: session.customer_details.email

@@ -13,12 +13,11 @@ const addFlower = async (req, res) => {
     const flowerData = {
       name,
       desc,
-      category,
+      category,      
+      title,
       prices,
       images,
-      title
     };
-
     const flower = flowerModel(flowerData);
     await flower.save();
 
@@ -54,12 +53,14 @@ const updateFlower = async (req, res) => {
     const prices = req.body.prices;
     const category = req.body.category;
     const images= req.body.images
+    const title = req.body.title
     
     let flowerData = {
         name,
         desc,
         category,
         prices,
+        title,
         images
       };    
     await flowerModel.findByIdAndUpdate(req.body.id, flowerData);

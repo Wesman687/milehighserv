@@ -9,12 +9,14 @@ const addFlower = async (req, res) => {
     const images= req.body.images
     const prices = req.body.prices;
     const category = req.body.category;
+    const title = req.body.title
     const flowerData = {
       name,
       desc,
       category,
       prices,
-      images
+      images,
+      title
     };
 
     const flower = flowerModel(flowerData);

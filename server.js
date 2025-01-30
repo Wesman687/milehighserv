@@ -16,7 +16,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
 // app config
 const app = express()
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 8000 
 connectCloudinary()
 connectDB()
 
